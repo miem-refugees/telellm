@@ -1,10 +1,7 @@
 [project]
-name = "snake-template"
+name = "telellm"
 version = "0.1.0"
-description = "Add your description here"
+description = "Telegram Bot with LLM integration"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "pytest>=8.3.3",
-    "ruff>=0.7.3",
-]
+dependencies = ["pytest>=8.3.3", "ruff>=0.7.3"]

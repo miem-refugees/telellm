@@ -1,6 +1,6 @@
-[![CI Python](https://github.com/miem-refugees/snake-template/actions/workflows/ci.yml/badge.svg)](https://github.com/miem-refugees/snake-template/actions/workflows/ci.yml)
+[![CI Python](https://github.com/miem-refugees/snake-template/actions/workflows/ci.yml/badge.svg)](https://github.com/miem-refugees/telellm/actions/workflows/ci.yml)
 
-# Python Repository Template (3.13)
+# Telegram bot with LLM support
 
 ## Overview
 
