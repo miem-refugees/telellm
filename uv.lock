@@ -345,6 +345,10 @@ dependencies = [
     { name = "loguru" },
     { name = "pytest" },
     { name = "python-dotenv" },
+]
+
+[package.dev-dependencies]
+dev = [
     { name = "ruff" },
 ]
 
@@ -354,8 +358,10 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pytest", specifier = ">=8.3.3" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
-    { name = "ruff", specifier = ">=0.7.3" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = ">=0.7.3" }]
 
 [[package]]
 name = "typing-extensions"
