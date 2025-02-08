@@ -28,7 +28,7 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Ruff linter
-        uses: astral-sh/ruff-action@v2
+        uses: astral-sh/ruff-action@v3
 
       # - name: Run tests
       #  run: uv run pytest <snake_template>/ests
