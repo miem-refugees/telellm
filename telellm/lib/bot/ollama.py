@@ -58,7 +58,7 @@ async def ollama_request(message: Message, prompt: str):
                     break
 
     except Exception as e:
-        print(f"-----\nException:\n{traceback.format_exc()}\n-----")
+        logger.error("Exception: {}", traceback.format_exc())
         await bot.send_message(
             chat_id=message.chat.id,
             text=f"Something went wrong: {str(e)}",

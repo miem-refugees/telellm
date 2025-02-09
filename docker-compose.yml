@@ -1,0 +1,29 @@
+services:
+  ollama-server:
+    image: ollama/ollama:latest
+    pull_policy: always
+    container_name: ollama-server
+    restart: on-failure
+    volumes:
+      - ~/ollama:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=1h
+    healthcheck:
+      test: "curl -f http://localhost:11434"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: "2.5g"
+
+  bot:
+    build: .
+    container_name: ollama-tg
+    pull_policy: always
+    restart: on-failure
+    depends_on:
+      - ollama-server
+    env_file:
+      - ./.env
+    environment:
+      - OLLAMA_HOST=ollama-server

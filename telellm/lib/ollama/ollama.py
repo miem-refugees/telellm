@@ -4,6 +4,7 @@ from aiohttp import ClientError, ClientSession, ClientResponseError, ClientTimeo
 from loguru import logger
 
 DEFAULT_TIMEOUT = 1 * 60  # 1 minute for generation
+PULL_TIMEOUT = 30 * 60
 
 
 class Ollama:
@@ -15,7 +16,7 @@ class Ollama:
     async def pull(self, model_name: str) -> None:
         logger.info("pulling model: {}", model_name)
 
-        async with ClientSession(timeout=ClientTimeout(10)) as session:
+        async with ClientSession(timeout=ClientTimeout(PULL_TIMEOUT)) as session:
             data = json.dumps({"name": model_name})
             headers = {"Content-Type": "application/json"}
 
