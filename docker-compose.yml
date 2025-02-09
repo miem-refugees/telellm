@@ -5,7 +5,7 @@ services:
     container_name: ollama-server
     restart: on-failure
     volumes:
-      - ~/ollama:/root/.ollama
+      - ~/.ollama:/root/.ollama
     environment:
       - OLLAMA_KEEP_ALIVE=1h
     healthcheck:
@@ -14,7 +14,7 @@ services:
       resources:
         limits:
           cpus: "0.8"
-          memory: "2.5g"
+          memory: "4g"
 
   bot:
     build: .
