@@ -3,6 +3,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, BotCommand
 
+from telellm.lib.redis import redis_client, STATUS_KEY_PREFIX
 from .auth import auth
 from .bot import bot
 from .keyboard import start_kb
@@ -56,3 +57,22 @@ async def command_history(message: Message):
         text=context,
         parse_mode=ParseMode.MARKDOWN,
     )
+
+
+@command_router.message(Command("status"))
+@auth
+async def status_command(message: Message):
+    """Позволяет пользователю узнать статус своей задачи"""
+    args = message.text.split()
+    if len(args) < 2:
+        await message.reply("Использование: /status <task_id>")
+        return
+
+    task_id = args[1]
+    result = redis_client.get(f"{STATUS_KEY_PREFIX}{task_id}")
+
+    if result:
+        await message.reply(f"📢 Ответ:\n\n{result.decode()}")
+        redis_client.delete(task_id)  # Удаляем после отправки
+    else:
+        await message.reply("⏳ Ваша задача все еще в обработке или не найдена.")

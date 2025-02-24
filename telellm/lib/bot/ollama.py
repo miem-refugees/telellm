@@ -1,11 +1,14 @@
+import json
 import traceback
+import uuid
 
 from aiogram.enums import ParseMode
 from aiogram.types import Message
 from loguru import logger
 
 from .bot import bot, get_model_name
-from .config import OLLAMA_HOST, OLLAMA_PORT
+from ..config import OLLAMA_HOST, OLLAMA_PORT
+from ..redis import redis_client, TASK_QUEUE
 
 from telellm.lib.ollama import Ollama
 from .history.in_memory import INMemoryContext
@@ -33,10 +36,22 @@ async def save_user_request(message: Message, prompt: str):
     return context
 
 
-async def ollama_request(message: Message, prompt: str):
+async def produce_ollama_request(message: Message, prompt: str):
+    task_id = str(uuid.uuid4())
+    task_data = {"task_id": task_id, "user_id": message.chat.id, "prompt": prompt}
+
+    redis_client.rpush(TASK_QUEUE, json.dumps(task_data))  # Кладем в очередь
+    await message.reply(
+        f"✅ Ваш запрос принят! Task ID: `{task_id}`\n\n"
+        f"Проверить статус: `/status {task_id}`",
+        parse_mode=ParseMode.MARKDOWN,
+    )
+    await bot.send_chat_action(message.chat.id, "typing")
+
+
+async def consume_ollama_request(message: Message, prompt: str):
     try:
         full_response = ""
-        await bot.send_chat_action(message.chat.id, "typing")
 
         payload = await save_user_request(message, prompt)
 

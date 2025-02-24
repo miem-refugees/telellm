@@ -13,4 +13,5 @@ WORKDIR /app
 RUN uv sync --frozen
 
 ENV PYTHONPATH="${PYTHONPATH}:/app/telellm/telellm"
-CMD [ "uv", "run", "telellm/main.py"]
+
+CMD ["echo", "Specify an entrypoint (producer or consumer)"]

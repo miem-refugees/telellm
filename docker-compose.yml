@@ -1,4 +1,11 @@
 services:
+  redis:
+    image: redis:7.4.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.redis:/redis
+
   ollama-server:
     image: ollama/ollama:latest
     pull_policy: always
@@ -11,14 +18,27 @@ services:
     healthcheck:
       test: "curl -f http://localhost:11434"
 
-  bot:
+  bot-producer:
     build: .
     container_name: ollama-tg
     pull_policy: always
     restart: on-failure
     depends_on:
+      - redis
+    env_file:
+      - ./.env
+    entrypoint: [ "uv", "run", "telellm/main.py" ]
+
+  server-consumer:
+    build: .
+    container_name: ollama-consumer
+    pull_policy: always
+    restart: on-failure
+    depends_on:
       - ollama-server
+      - redis
     env_file:
       - ./.env
     environment:
       - OLLAMA_HOST=ollama-server
+    entrypoint: [ "uv", "run", "telellm/consumer.py" ]
