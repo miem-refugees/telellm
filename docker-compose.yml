@@ -1,6 +1,7 @@
 services:
   redis:
     image: redis:7.4.2-alpine
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
@@ -27,6 +28,8 @@ services:
       - redis
     env_file:
       - ./.env
+    environment:
+      - REDIS_HOST=redis
     entrypoint: [ "uv", "run", "telellm/main.py" ]
 
   server-consumer:
@@ -40,5 +43,6 @@ services:
     env_file:
       - ./.env
     environment:
-      - OLLAMA_HOST=ollama-server
+      - OLLAMA_HOST=127.0.0.1
+      - REDIS_HOST=redis
     entrypoint: [ "uv", "run", "telellm/consumer.py" ]
