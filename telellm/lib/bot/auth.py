@@ -1,7 +1,7 @@
 from functools import wraps
 from aiogram.types import Message, CallbackQuery
 
-from telellm.lib.bot.config import CHAT_IDS, USER_IDS
+from telellm.lib.config import CHAT_IDS, USER_IDS
 
 
 def auth(func):

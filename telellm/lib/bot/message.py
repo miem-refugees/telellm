@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.types import Message
 
 from .bot import bot_name, bot
-from .ollama import ollama_request
+from .ollama import produce_ollama_request
 from .auth import auth
 from .thread import collect_message_thread, format_thread_for_prompt
 
@@ -14,12 +14,12 @@ message_router = Router()
 async def message_handler(message: Message):
     if message.chat.type == "private":
         prompt = message.text or message.caption
-        await ollama_request(message, prompt)
+        await produce_ollama_request(message, prompt)
     elif message.chat.type in {"group", "supergroup"} and is_mention_or_reply(message):
         thread = await collect_message_thread(message)
         prompt = format_thread_for_prompt(thread)
 
-        await ollama_request(message, prompt)
+        await produce_ollama_request(message, prompt)
 
 
 async def is_mention_or_reply(message: Message):

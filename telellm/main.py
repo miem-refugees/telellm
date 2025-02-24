@@ -1,9 +1,9 @@
-from loguru import logger
-from asyncio import run
+import asyncio
+
 from aiogram import Dispatcher
-from logger import init_logger
 
 from telellm.lib.bot import bot, set_bot_name
+from telellm.lib.logger import init_logger
 from telellm.lib.bot.callback import callback_router
 from telellm.lib.bot.commands import command_router, update_bot_commands
 from telellm.lib.bot.message import message_router
@@ -22,10 +22,9 @@ async def main():
     bot_me = await bot.get_me()
     set_bot_name(f"@{bot_me.username}")
     await update_bot_commands()
-    logger.debug("updated bot commands")
 
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    run(main())
+    asyncio.run(main())
