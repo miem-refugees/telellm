@@ -30,17 +30,25 @@ uv sync
 
 ## Running the bot
 
-To run the bot, use the following command:
+Application is splitted with redis queue and db. The incoming user message put into task
+queue by bot and consumed by server. The result can be get with command `/status <uuid>`.
+
+Run the bot (producer):
 
 ```bash
 python telellm/main.py
 ```
 
-You can also run the bot using Docker:
+Run server (consumer):
 
 ```bash
-docker build -t telellm .
-docker run -it telellm
+python telellm/consumer.py
+```
+
+You can also run both using Docker:
+
+```bash
+docker-compose up -d
 ```
 
 ## Testing

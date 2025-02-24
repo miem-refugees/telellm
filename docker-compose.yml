@@ -43,6 +43,6 @@ services:
     env_file:
       - ./.env
     environment:
-      - OLLAMA_HOST=127.0.0.1
+      - OLLAMA_HOST=ollama-server
       - REDIS_HOST=redis
     entrypoint: [ "uv", "run", "telellm/consumer.py" ]
