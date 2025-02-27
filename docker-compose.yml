@@ -46,3 +46,13 @@ services:
       - OLLAMA_HOST=ollama-server
       - REDIS_HOST=redis
     entrypoint: [ "uv", "run", "telellm/consumer.py" ]
+
+  nginx:
+    image: nginx
+    container_name: nginx-static
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    volumes:
+      - ./static:/opt/static
