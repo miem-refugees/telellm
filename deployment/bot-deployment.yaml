@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot-producer
+spec:
+  selector:
+    matchLabels:
+      app: bot-producer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bot-producer
+    spec:
+      containers:
+        - name: bot-producer
+          image: ghcr.io/miem-refugees/telellm:main
+          env:
+            - name: REDIS_HOST
+              value: "redis"
+          envFrom:
+            - configMapRef:
+                name: telellm-config
+          command: ["uv"]
+          args: ["run", "telellm/main.py"]
