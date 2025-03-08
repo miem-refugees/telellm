@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telellm-config
+data:
+  BOT_TOKEN: "<TOKEN TO BE HERE>"
+  LOG_LEVEL: "DEBUG"

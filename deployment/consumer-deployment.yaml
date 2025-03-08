@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-consumer
+spec:
+  selector:
+    matchLabels:
+      app: server-consumer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: server-consumer
+    spec:
+      containers:
+        - name: server-consumer
+          image: ghcr.io/miem-refugees/telellm:main
+          env:
+            - name: REDIS_HOST
+              value: "redis"
+            - name: OLLAMA_HOST
+              value: "ollama-server"
+          envFrom:
+            - configMapRef:
+                name: telellm-config
+          command: ["uv"]
+          args: ["run", "telellm/consumer.py"]
