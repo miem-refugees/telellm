@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: telellm-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: telellm.ksusonic.tech # NO REAL HOSTNAME
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bot-producer
+                port:
+                  number: 80
+          - path: /redis-ui
+            pathType: Prefix
+            backend:
+              service:
+                name: redis-commander
+                port:
+                  number: 8081
+          - path: /ollama
+            pathType: Prefix
+            backend:
+              service:
+                name: ollama-server
+                port:
+                  number: 11434

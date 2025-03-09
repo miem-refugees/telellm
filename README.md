@@ -66,3 +66,38 @@ To lint the code, use the following command:
 ```bash
 ruff telellm
 ```
+
+## Kubernetes deployment
+
+1. Secrets:
+```bash
+kubectl apply -f secrets-config.yaml
+```
+
+2. Redis and Ollama:
+```bash
+kubectl apply -f redis-deployment.yaml
+kubectl apply -f ollama-deployment.yaml
+```
+
+3. ConfigMap, bot and consumer:
+```bash
+kubectl apply -f configmap.yaml
+kubectl apply -f bot-deployment.yaml
+kubectl apply -f consumer-deployment.yaml
+```
+
+4. Ingress:
+```bash
+kubectl apply -f ingress.yaml
+```
+
+5. Ollama init job:
+```bash
+kubectl apply -f ollama-init-job.yaml
+```
+
+6. Ollama model update cronjob:
+```bash
+kubectl apply -f model-update-cron.yaml
+```

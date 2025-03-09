@@ -23,5 +23,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: telellm-config
+            - secretRef:
+                name: telellm-secrets
           command: ["uv"]
           args: ["run", "telellm/consumer.py"]
